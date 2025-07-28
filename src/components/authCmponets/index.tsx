@@ -45,7 +45,7 @@ const Form = ({callbackValue, issignUp, redirectURL}:callbackValue) => {
           <span className="span">Forgot password?</span>
         </div>
         <button className="button-submit">{redirectURL == "/signIn"? "Sign In":"Sign Up"}</button>
-        <p className="p">Don't have an account? <Link href={redirectURL} className="span">{redirectURL == "/signIn"? "Sign In":"Sign Up"}</Link>
+        <p className="p">{redirectURL != "/signIn"? "Already have an account?":"Don't have an account?"}<Link href={redirectURL} className="span">{redirectURL != "/signIn"? "Sign In":"Sign Up"}</Link>
         </p><p className="p line">Or With</p>
         <div className="flex-row text-black">
           <button className="btn google ">
