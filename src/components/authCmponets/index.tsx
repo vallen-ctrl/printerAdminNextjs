@@ -18,7 +18,7 @@ const Form = ({callbackValue, issignUp, redirectURL}:callbackValue) => {
 
   return (
     <StyledWrapper>
-      <form className="form text-black" onSubmit={handler}>
+      <form className="form text-black shadow-2xl" onSubmit={handler}>
         {issignUp? <><div className="flex-column">
           <label>Name </label></div>
         <div className="inputForm">

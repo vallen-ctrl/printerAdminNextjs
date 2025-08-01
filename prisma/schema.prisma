@@ -11,32 +11,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id            String    @id
+  id            String     @id
   name          String
   email         String
   emailVerified Boolean
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
+  headerImages  Bytes?
+  role          String     @default("user")
+  banned        Boolean?
+  banReason     String?
+  banExpires    DateTime?
   sessions      Session[]
   accounts      Account[]
+  products      Products[]
 
   @@unique([email])
   @@map("user")
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime
-  updatedAt DateTime
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String   @id
+  expiresAt      DateTime
+  token          String
+  createdAt      DateTime
+  updatedAt      DateTime
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  impersonatedBy String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@map("session")
@@ -70,4 +76,35 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Products {
+  id            String     @unique @default(uuid())
+  name          String
+  description   String
+  images        String?
+  price         Int
+  productCreate DateTime   @default(now())
+  productStar   Int        @default(0)
+  totalBuyer    Int        @default(0)
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments      Comments[]
+}
+
+model Comments {
+  id        String   @unique() @default(uuid())
+  name      String
+  comments  String
+  productId String
+  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model history {
+  id        String   @unique() @default(uuid())
+  name      String
+  productId String
+  timebuy   DateTime @default(now())
+  status    String
+  price     Int
 }
