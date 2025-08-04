@@ -32,6 +32,7 @@ import {
 import { signOut } from "@/auth-client"
 import Swal from "sweetalert2"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 export function NavUser({
   user,
@@ -44,7 +45,9 @@ export function NavUser({
 }) {
 
   const router = useRouter()
+  const [isUserlogout, setuserLogout] = useState(false)
   const logoutHandler = async () => {
+
     const userLogut = await signOut({
       fetchOptions: {
         onRequest: () => {
@@ -60,12 +63,16 @@ export function NavUser({
           })
         },
         onSuccess:() =>{
+          setuserLogout(true)
           Swal.close()
-          router.refresh()
         }
       }
     })
   }
+
+  useEffect(()=>{
+    if(isUserlogout) return router.refresh()
+  }, [isUserlogout])
   const { isMobile } = useSidebar()
 
   return (

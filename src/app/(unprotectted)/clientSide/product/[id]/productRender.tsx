@@ -29,7 +29,7 @@ const ProductRender = ({ data, buyerName }: data) => {
       return Swal.fire({
           title: "Are you already signIn?",
           text:"this eror show when you are not signIn in this website, do signIn first and your are ready",
-        }).then(()=>window.open(`/signIn?authTrue=${pathName}`,"_blank"))
+        }).then(()=>window.open(`/login?authTrue=${true}`,"_blank"))
       }
     setOpen(true);
   }
